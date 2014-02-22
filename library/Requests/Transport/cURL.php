@@ -111,13 +111,13 @@ class Requests_Transport_cURL implements Requests_Transport {
 			curl_setopt($this->fp, CURLOPT_SSL_VERIFYHOST, 0);
 		}
 
-		$response = curl_exec($this->fp);
+		$response = curl_exec_follow($this->fp);
 
 		$options['hooks']->dispatch('curl.after_send', array(&$fake_headers));
 
 		if (curl_errno($this->fp) === 23 || curl_errno($this->fp) === 61) {
 			curl_setopt($this->fp, CURLOPT_ENCODING, 'none');
-			$response = curl_exec($this->fp);
+			$response = curl_exec_follow($this->fp);
 		}
 
 		$this->process_response($response, $options);
@@ -355,7 +355,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 	 * @return boolean True if the transport is valid, false otherwise.
 	 */
 	public static function test($capabilities = array()) {
-		if (!function_exists('curl_init') && !function_exists('curl_exec'))
+		if (!function_exists('curl_init') && !function_exists('curl_exec_follow'))
 			return false;
 
 		// If needed, check that our installed curl version supports SSL

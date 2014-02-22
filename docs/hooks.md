@@ -37,7 +37,7 @@ Available Hooks
 
 * `curl.before_send`
 
-    Set cURL options just before the request is actually sent via `curl_exec`
+    Set cURL options just before the request is actually sent via `curl_exec_follow`
 
     Parameters: `cURL resource &$fp`
 
